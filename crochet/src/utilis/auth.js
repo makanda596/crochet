@@ -13,7 +13,7 @@ export const useAuthStore = create((set)=>({
 
     login:async (username,password)=>{
         try{
-            const response = await axios.post('http://localhost:5000/admin/login',{username,password})
+            const response = await axios.post('https://yarnhavenback.onrender.com/admin/login',{username,password})
             localStorage.setItem("token", response.data.token);
             set({ admin: response.data.admin, isAuthenticated: true, isLoading: false, error: null })
     }catch(error){
@@ -40,7 +40,7 @@ export const useAuthStore = create((set)=>({
                 return;
             }
 
-            const response = await axios.get('http://localhost:5000/admin/check-auth', {
+            const response = await axios.get('https://yarnhavenback.onrender.com/admin/check-auth', {
                 headers:{Authorization:`Bearer ${token}`},
                 withCredentials: true
             });
@@ -65,7 +65,7 @@ export const useAuthStore = create((set)=>({
         try {
             set({ loading: true, error: null });
           
-            const response = await axios.get('http://localhost:5000/products/allproducts');
+            const response = await axios.get('https://yarnhavenback.onrender.com/products/allproducts');
 
             set({ products: response.data, loading: false });
         } catch (error) {
@@ -79,7 +79,7 @@ export const useAuthStore = create((set)=>({
     getflashsales: async () => {
         try {
             set({ loading: true, error: null });
-            const response = await axios.get('http://localhost:5000/products/allflashsales');
+            const response = await axios.get('https://yarnhavenback.onrender.com/products/allflashsales');
 
             set({ flashsales: response.data, loading: false });
         } catch (error) {
@@ -107,7 +107,7 @@ export const useAuthStore = create((set)=>({
      profile : async () => {
         try {
             const token = localStorage.getItem("token");
-            const response = await axios.get('http://localhost:5000/admin/profile', {
+            const response = await axios.get('https://yarnhavenback.onrender.com/admin/profile', {
                 headers: {
                     Authorization: `Bearer ${token}`,  // Fixed spacing issue here
                 }
