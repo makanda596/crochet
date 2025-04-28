@@ -5,19 +5,10 @@ import ProductCard from './ProductCard';
 
 const AllFlash = () => {
   const { getflashsales, flashsales, loading, error } = useAuthStore();
-  const [timeLeft, setTimeLeft] = useState({ hours: 24, minutes: 0, seconds: 0 });
 
   useEffect(() => {
     getflashsales();
-    const timer = setInterval(() => {
-      setTimeLeft(prev => ({
-        hours: prev.seconds === 0 ? prev.minutes === 0 ? prev.hours - 1 : prev.hours : prev.hours,
-        minutes: prev.seconds === 0 ? (prev.minutes - 1 + 60) % 60 : prev.minutes,
-        seconds: (prev.seconds - 1 + 60) % 60
-      }));
-    }, 1000); 
-    return () => clearInterval(timer);
-  }, []);
+      }, []);
 
   if (loading) return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-8">
@@ -29,25 +20,7 @@ const AllFlash = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      {/* Sale Header */}
-      <div className="mb-8 text-center">
-        <h1 className="text-4xl font-bold text-purple-800 mb-4 flex items-center justify-center gap-2">
-          🎉 Flash Sale
-          <span className="bg-red-500 text-white text-sm px-3 py-1 rounded-full ml-2">
-            Limited Time!
-          </span>
-        </h1>
-        <div className="bg-purple-100 p-4 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold text-purple-800 mb-2">
-            Sale Ends In:
-          </h2>
-          <div className="flex justify-center gap-4 text-2xl font-bold text-red-600">
-            <span>{String(timeLeft.hours).padStart(2, '0')}</span>:
-            <span>{String(timeLeft.minutes).padStart(2, '0')}</span>:
-            <span>{String(timeLeft.seconds).padStart(2, '0')}</span>
-          </div>
-        </div>
-      </div>
+    
 
       {/* Error Handling */}
       {error && (
