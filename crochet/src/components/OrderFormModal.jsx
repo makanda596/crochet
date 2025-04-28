@@ -36,7 +36,7 @@ const OrderFormModal = ({ closeModal, refreshOrders }) => {
         try {
             setLoading(true);
             const token = localStorage.getItem('token');
-            const response = await axios.post('http://localhost:5000/orders/addOrder', orderData, {
+            const response = await axios.post('https://yarnhavenback.onrender.com/orders/addOrder', orderData, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 

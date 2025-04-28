@@ -12,7 +12,7 @@ const Order = () => {
     // d,kdk
     try {
       const token = localStorage.getItem("token")
-      const response = await axios.get(`http://localhost:5000/orders/getorder/${id}`,{
+      const response = await axios.get(`https://yarnhavenback.onrender.com/orders/getorder/${id}`,{
         headers:{Authorization:`Bearer${token}`}
       });
       setOrder(response.data);

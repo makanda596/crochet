@@ -54,7 +54,7 @@ const CreatePost = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        'http://localhost:5000/products/createFlash',
+        'https://yarnhavenback.onrender.com/products/createFlash',
         { ...formData, image },
         {
           headers: {

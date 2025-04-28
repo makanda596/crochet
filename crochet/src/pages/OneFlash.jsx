@@ -13,7 +13,7 @@ const OneProductFlashSale = () => {
 
     const fetchProduct = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/products/OneFlash/${productId}`);
+            const response = await axios.get(`https://yarnhavenback.onrender.com/products/OneFlash/${productId}`);
             setProduct(response.data);
             setLoading(false);
         } catch (err) {

@@ -14,7 +14,7 @@ const Oneproduct = () => {
 
   const fetchProduct = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/products/Oneproduct/${productId}`);
+      const response = await axios.get(`https://yarnhavenback.onrender.com/products/Oneproduct/${productId}`);
       setProduct(response.data);
       setLoading(false);
     } catch (err) {
