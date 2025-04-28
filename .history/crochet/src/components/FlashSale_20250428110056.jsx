@@ -1,0 +1,80 @@
+import React, { useEffect } from 'react';
+import { useAuthStore } from '../utilis/auth';
+import LoadSpinner from './LoadSpinner';
+import FlashCard from './FlashCard';
+
+const FlashSale = () => {
+  const { getflashsales, flashsales, loading, error } = useAuthStore();
+
+  useEffect(() => {
+    getflashsales();
+  }, []);
+
+  if (loading) return <LoadSpinner />;
+
+  return (
+    <section className="space-y-6">
+      {/* Flash Sale Header */}
+      <div className="flex items-center justify-between bg-red-600 text-white px-4 py-2 rounded-md">
+        <h2 className="text-lg font-bold">
+          🔥 Flash Sales | Live Now
+        </h2>
+        {/* Timer (static for now) */}
+        <div className="text-sm font-semibold">
+          Time Left: <span className="font-mono">00h : 23m : 46s</span>
+        </div>
+        <button className="text-sm underline">
+          See All ➔
+        </button>
+      </div>
+
+      {/* Error Display */}
+      {error && (
+        <div className="p-4 bg-red-100 text-red-700 rounded-lg">
+          Error: {error}
+        </div>
+      )}
+
+      {/* Flash Sale Products */}
+      <div className="py-8 px-4 md:px-40">
+        {/* Grid Section with improved responsiveness and padding */}
+        <div className="flex justify-between items-center pb-4">
+          <p
+            className="text-lg font-semibold text-purple-600 hover:text-purple-800 transition-colors"
+          >
+            Flash Sales
+          </p>
+          <a
+            href="/flashsales"
+            className="text-md font-medium text-blue-600 hover:text-blue-800 transition-colors"
+          >
+            View More
+          </a>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 gap-8">
+          {flashsales.length > 0 ? (
+            flashsales.map((product) => (
+              <div
+                key={product._id}
+                className="bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition-all duration-300 ease-in-out"
+              >
+                <FlashCard key={product._id} product={product} />
+              </div>
+            ))
+          ) : (
+            <div className="col-span-full text-center text-gray-500 py-8">
+              <div className="flex justify-center items-center">
+                <span className="text-xl mr-2">🚫</span>
+                <span>No products found</span>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+    </section>
+  );
+};
+
+export default FlashSale;
