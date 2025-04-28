@@ -17,7 +17,7 @@ const app = express();
 const URL = process.env.FRONTEND_URL;
 
 app.use(cors({
-    origin: URL,
+    origin:"https://yarnhaven.onrender.com",
     credentials: true,
 }));
 
