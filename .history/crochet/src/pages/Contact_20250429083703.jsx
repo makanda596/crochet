@@ -81,7 +81,7 @@ const Contact = () => {
                   Phone Number
                 </label>
                 <input
-                  type="number"
+                  type="tel"
                   name="phone"
                   id="phone"
                   required

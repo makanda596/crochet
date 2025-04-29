@@ -49,6 +49,7 @@ const Contact = () => {
             </div>
           </div>
 
+          {/* Contact Form */}
           <form
             action="https://api.web3forms.com/submit"
             method="POST"
@@ -62,7 +63,7 @@ const Contact = () => {
             <input type="hidden" name="subject" value="New Contact Form Submission" />
             <input type="checkbox" name="botcheck" className="hidden" />
 
-            <div className="grid grid-cols-1 gap-4">
+            <div className="grid grid-cols-1 gap-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                   Full Name
@@ -77,15 +78,28 @@ const Contact = () => {
               </div>
 
               <div>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  required
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
+                />
+              </div>
+
+              <div>
                 <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
                   Phone Number
                 </label>
                 <input
-                  type="number"
+                  type="tel"
                   name="phone"
                   id="phone"
                   required
-                  className="mt-1 h-8 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
                 />
               </div>
 

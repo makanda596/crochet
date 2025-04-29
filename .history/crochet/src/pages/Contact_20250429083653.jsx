@@ -81,11 +81,11 @@ const Contact = () => {
                   Phone Number
                 </label>
                 <input
-                  type="number"
+                  type="tel"
                   name="phone"
                   id="phone"
                   required
-                  className="mt-1 h-8 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
+                  className="mt-1 h-4 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
                 />
               </div>
 

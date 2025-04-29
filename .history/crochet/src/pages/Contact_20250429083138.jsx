@@ -2,7 +2,6 @@ import React from 'react';
 import { FiPhone, FiMail, FiMapPin } from 'react-icons/fi';
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer';
-import {  FaWhatsapp} from 'react-icons/fa'; // Added TikTok icon
 const Contact = () => {
   return (
     <div>
@@ -23,7 +22,7 @@ const Contact = () => {
               </div>
 
               <div className="flex items-start gap-4">
-                <FiPhone className="w-5 h-5 text-purple-600 mt-1" />
+                <FiPhone className="w-6 h-6 text-purple-600 mt-1" />
                 <div>
                   <h3 className="text-lg font-semibold">Phone Number</h3>
                   <a href="tel:+254748431913" className="text-gray-600 hover:text-purple-600">
@@ -32,23 +31,36 @@ const Contact = () => {
                 </div>
               </div>
 
-              
+              <div className="flex items-start gap-4">
+                <FiMail className="w-6 h-6 text-purple-600 mt-1" />
+                <div>
+                  <h3 className="text-lg font-semibold">Email Address</h3>
+                  <a href="mailto:info@crochetcraft.com" className="text-gray-600 hover:text-purple-600">
+                    info@crochetcraft.com
+                  </a>
+                </div>
+              </div>
             </div>
 
-            <div className="mt-4">
-              <h3 className="text-lg font-semibold mb-2">Direct WhatsApp</h3>
+            <div className="mt-8">
+              <h3 className="text-lg font-semibold mb-4">Direct WhatsApp</h3>
               <a
                 href="https://wa.me/254748431913"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex gap-2 items-center bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg transition-colors"
+                className="inline-flex items-center bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg transition-colors"
               >
-                  <FaWhatsapp className="h-6 w-6" />
+                <img
+                  src="/whatsapp-icon.svg"
+                  alt="WhatsApp"
+                  className="w-6 h-6 mr-2"
+                />
                 Chat on WhatsApp
               </a>
             </div>
           </div>
 
+          {/* Contact Form */}
           <form
             action="https://api.web3forms.com/submit"
             method="POST"
@@ -62,7 +74,7 @@ const Contact = () => {
             <input type="hidden" name="subject" value="New Contact Form Submission" />
             <input type="checkbox" name="botcheck" className="hidden" />
 
-            <div className="grid grid-cols-1 gap-4">
+            <div className="grid grid-cols-1 gap-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                   Full Name
@@ -77,15 +89,28 @@ const Contact = () => {
               </div>
 
               <div>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  required
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
+                />
+              </div>
+
+              <div>
                 <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
                   Phone Number
                 </label>
                 <input
-                  type="number"
+                  type="tel"
                   name="phone"
                   id="phone"
                   required
-                  className="mt-1 h-8 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
                 />
               </div>
 
