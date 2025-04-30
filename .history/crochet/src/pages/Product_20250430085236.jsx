@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
-import { toast } from 'react-toastify';
+import { toast } from 'react-toastify'; // Import toast for notifications
 
 const Oneproduct = () => {
   const [product, setProduct] = useState(null);
@@ -10,15 +10,16 @@ const Oneproduct = () => {
   const [error, setError] = useState(null);
   const { productId } = useParams();
 
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false); // State to control modal visibility
   const [productData, setProductData] = useState({
     title: '',
     description: '',
     price: '',
     image: ''
   });
-  const [imagePreview, setImagePreview] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null); // For image preview
 
+  // Fetch product details
   const fetchProduct = async () => {
     try {
       const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/products/Oneproduct/${productId}`);
@@ -30,6 +31,7 @@ const Oneproduct = () => {
     }
   };
 
+  // Delete product
   const deleteProduct = async () => {
     if (!window.confirm("Are you sure you want to delete this product?")) return;
 
@@ -39,7 +41,7 @@ const Oneproduct = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       toast.success("Product deleted successfully");
-      window.location.href = '/home';
+      window.location.href = '/home';  // Redirect to home after successful delete
     } catch (error) {
       toast.error("Failed to delete product");
     }
@@ -49,6 +51,7 @@ const Oneproduct = () => {
     fetchProduct();
   }, [productId]);
 
+  // Handle modal form change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProductData((prev) => ({
@@ -57,6 +60,7 @@ const Oneproduct = () => {
     }));
   };
 
+  // Handle image change
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -66,12 +70,13 @@ const Oneproduct = () => {
       }));
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImagePreview(reader.result);
+        setImagePreview(reader.result);  // Show image preview
       };
       reader.readAsDataURL(file);
     }
   };
 
+  // Handle form submit for updating product
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -85,20 +90,20 @@ const Oneproduct = () => {
 
     try {
       const token = localStorage.getItem('token');
-      await axios.patch(
+       await axios.patch(
         `${import.meta.env.VITE_BACKEND_URL}/products/edit/${productId}`,
         formData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data'
+            'Content-Type': 'multipart/form-data'  // Handle file uploads
           }
         }
       );
 
       toast.success('Product updated successfully');
-      setShowModal(false);
-      fetchProduct();
+      setShowModal(false);  // Close modal
+      fetchProduct();  // Re-fetch the updated product details
     } catch (err) {
       toast.error('Failed to update product');
       console.error('Error:', err);
@@ -129,6 +134,7 @@ const Oneproduct = () => {
     <div>
       <div className="min-h-screen py-14 px-0 lg:px-8">
         <div className="max-w-7xl mx-auto">
+         
           {product ? (
             <div className="rounded-xl shadow-xl overflow-hidden lg:flex">
               {/* Product Image */}
@@ -146,11 +152,11 @@ const Oneproduct = () => {
 
                 <div className="mb-0">
                   <span className="text-lg font-bold text-purple-600">
-                    <span className="text-black">Price:</span> KSH {product.price?.toLocaleString()}
+                    <span className="text-black">Price:</span> KSH {product.price.toLocaleString()}
                   </span>
-                  {product.oldPrice && (
+                  {product.originalPrice && (
                     <span className="ml-3 text-md text-gray-400 line-through">
-                      KSH {product.oldPrice.toLocaleString()}
+                      KSH {product.originalPrice.toLocaleString()}
                     </span>
                   )}
                 </div>
@@ -160,6 +166,7 @@ const Oneproduct = () => {
                   <p className="text-gray-700 leading-relaxed">{product.description}</p>
                 </div>
 
+                {/* Edit and Delete Buttons */}
                 <div className="mt-6 flex gap-4">
                   <button
                     onClick={() => {
@@ -194,7 +201,7 @@ const Oneproduct = () => {
         </div>
       </div>
 
-      {/* Edit Product Modal */}
+      {/* Modal for editing product */}
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white rounded-lg p-6 w-96">
@@ -251,7 +258,7 @@ const Oneproduct = () => {
                 {imagePreview && (
                   <img
                     src={imagePreview}
-                    alt="Preview"
+                    alt="Image Preview"
                     className="mt-2 w-32 h-32 object-cover rounded-lg"
                   />
                 )}
