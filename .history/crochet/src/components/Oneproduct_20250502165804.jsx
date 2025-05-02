@@ -177,10 +177,12 @@ const Oneproduct = () => {
 
                 <div className="mb-6 flex items-center gap-2">
                   <span
-                    className={`px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700'${product.inStock
-      }`}
+                    className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${product.inStock
+                        ? 'bg-green-100 text-green-700'
+                        : 'bg-red-100 text-red-700'
+                      }`}
                   >
-                    In Stock
+                    'In Stock
                   </span>
                   {product.inStock && product.stockQuantity && (
                     <span className="text-xs text-gray-500">
@@ -189,7 +191,7 @@ const Oneproduct = () => {
                   )}
                 </div>
 
-                <div className="flex flex-row gap-2">
+                <div className="flex flex-col gap-3">
                   <button
                     onClick={handleWhatsAppOrder}
                     className="w-full bg-green-600 hover:bg-green-700 text-white py-2.5 px-4 rounded-md font-medium text-sm transition-colors flex items-center justify-center gap-2"

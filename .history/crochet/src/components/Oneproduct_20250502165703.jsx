@@ -153,12 +153,12 @@ const Oneproduct = () => {
 
               {/* Product Details */}
               <section className="lg:w-1/2 p-2" aria-label="Product details">
-                <h1 className="text-xl font-semibold text-gray-900 mb-0">
+                <h1 className="text-xl font-semibold text-gray-900 mb-2">
                   {product.title}
                 </h1>
 
-                <div className="mb-0">
-                  <div className="text-lg font-bold text-purple-600">
+                <div className="mb-4">
+                  <div className="text-xl font-bold text-purple-600">
                     KSH {Number(product.price).toLocaleString()}
                   </div>
                   {product.originalPrice && (
@@ -168,7 +168,7 @@ const Oneproduct = () => {
                   )}
                 </div>
 
-                <div className="mb-0">
+                <div className="mb-4">
                   <h2 className="text-base font-medium mb-2 text-gray-700">Description</h2>
                   <p className="text-gray-600 text-sm leading-normal">
                     {product.description}
@@ -177,10 +177,12 @@ const Oneproduct = () => {
 
                 <div className="mb-6 flex items-center gap-2">
                   <span
-                    className={`px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700'${product.inStock
-      }`}
+                    className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${product.inStock
+                        ? 'bg-green-100 text-green-700'
+                        : 'bg-red-100 text-red-700'
+                      }`}
                   >
-                    In Stock
+                    {product.inStock ? 'In Stock' : 'Out of Stock'}
                   </span>
                   {product.inStock && product.stockQuantity && (
                     <span className="text-xs text-gray-500">
@@ -189,7 +191,7 @@ const Oneproduct = () => {
                   )}
                 </div>
 
-                <div className="flex flex-row gap-2">
+                <div className="flex flex-col gap-3">
                   <button
                     onClick={handleWhatsAppOrder}
                     className="w-full bg-green-600 hover:bg-green-700 text-white py-2.5 px-4 rounded-md font-medium text-sm transition-colors flex items-center justify-center gap-2"

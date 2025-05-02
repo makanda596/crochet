@@ -26,11 +26,16 @@ const Oneproduct = () => {
         { signal }
       );
 
-      if (!response.data) throw new Error('Product not found');
+      if (!response.data) {
+        throw new Error('Product not found');
+      }
 
       const processImages = (data) => {
-        const images = [data.image, data.optionalImage, data.optionalImage1, data.optionalImage2];
-        return images.filter(Boolean);
+        const images = [data.image];
+        if (data.optionalImage) images.push(data.optionalImage);
+        if (data.optionalImage1) images.push(data.optionalImage1);
+        if (data.optionalImage2) images.push(data.optionalImage2);
+        return images.filter(img => img);
       };
 
       const productData = {
@@ -65,7 +70,9 @@ const Oneproduct = () => {
   };
 
   const handleAddToCart = () => {
+    // Implement cart logic here
     console.log('Added to cart:', product);
+    // Temporary visual feedback
     const btn = document.querySelector('.add-to-cart');
     btn.classList.add('scale-95');
     setTimeout(() => btn.classList.remove('scale-95'), 100);
@@ -90,60 +97,63 @@ const Oneproduct = () => {
     <div className="flex flex-col min-h-screen">
       <Navbar />
 
-      <main className="flex-grow py-4 px-4 sm:px-6 lg:px-8">
+      <main className="flex-grow py-2  px-2 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <Link
             to="/products"
-            className="mb-4 inline-flex items-center text-purple-600 hover:text-purple-800 text-sm transition-colors"
+            className="mb-2 mt-10 inline-flex items-center text-purple-600 hover:text-purple-800 transition-colors"
           >
-            <FiArrowLeft className="mr-1 h-4 w-4" />
+            <FiArrowLeft className="mr-2" />
             Back to Products
           </Link>
 
           {loading ? (
-            <div className="rounded-lg shadow-sm overflow-hidden lg:flex">
-              <div className="lg:w-1/2 p-2">
-                <Skeleton height={400} className="rounded-lg" />
+            <div className="rounded-xl shadow-xl overflow-hidden lg:flex">
+              <div className="lg:w-1/2 p-8">
+                <Skeleton height={480} className="rounded-lg" />
               </div>
-              <div className="lg:w-1/2 p-4 space-y-3">
-                <Skeleton width={240} height={28} />
-                <Skeleton width={160} height={20} />
-                <Skeleton count={3} />
-                <div className="flex gap-3 mt-4">
-                  <Skeleton width={120} height={40} />
-                  <Skeleton width={120} height={40} />
-                </div>
+              <div className="lg:w-1/2 p-8 space-y-4">
+                <Skeleton width={300} height={32} />
+                <Skeleton width={200} height={24} />
+                <Skeleton count={4} />
+                <Skeleton width={150} height={40} />
               </div>
             </div>
           ) : product ? (
-            <div className="rounded-lg shadow-sm overflow-hidden lg:flex bg-white">
+            <div className="rounded-xl shadow-xl overflow-hidden lg:flex bg-white">
               {/* Image Gallery */}
-              <section className="lg:w-1/2 p-4" aria-label="Product images">
+              <section className="lg:w-1/2 p-8" aria-label="Product images">
                 <div className="relative aspect-square mb-4">
                   <img
                     src={mainImage}
                     alt={product.title}
-                    className="w-full h-full object-contain rounded-lg border border-gray-100 transition-opacity duration-200"
-                    onError={(e) => (e.target.src = '/placeholder-crochet.jpg')}
+                    className="w-full h-full object-contain rounded-lg transition-opacity duration-300"
+                    loading="eager"
+                    onError={(e) => {
+                      e.target.src = '/placeholder-crochet.jpg';
+                    }}
                   />
                 </div>
 
-                {product.images.length > 1 && (
-                  <div className="flex gap-3 pb-2 overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-50">
+                {product.images.length > 0 && (
+                  <div className="grid grid-cols-4 gap-4 mt-6">
                     {product.images.map((img, index) => (
                       <button
                         key={index}
                         onClick={() => setMainImage(img)}
-                        className={`w-16 h-16 flex-shrink-0 rounded-lg border overflow-hidden transition-all duration-150 ${mainImage === img
-                            ? 'border-purple-600 ring-1 ring-purple-600'
-                            : 'border-gray-200 hover:border-purple-400'
+                        className={`aspect-square rounded-lg border-2 overflow-hidden transition-all ${mainImage === img
+                            ? 'border-purple-500 scale-105'
+                            : 'border-gray-200 hover:border-purple-300'
                           }`}
+                        aria-label={`View image ${index + 1}`}
                       >
                         <img
                           src={img}
                           alt=""
                           className="w-full h-full object-cover"
-                          onError={(e) => (e.target.src = '/placeholder-crochet.jpg')}
+                          onError={(e) => {
+                            e.target.src = '/placeholder-crochet.jpg';
+                          }}
                         />
                       </button>
                     ))}
@@ -152,72 +162,74 @@ const Oneproduct = () => {
               </section>
 
               {/* Product Details */}
-              <section className="lg:w-1/2 p-2" aria-label="Product details">
-                <h1 className="text-xl font-semibold text-gray-900 mb-0">
+              <section className="lg:w-1/2 p-8" aria-label="Product details">
+                <h1 className="text-3xl font-bold text-gray-900 mb-4">
                   {product.title}
                 </h1>
 
-                <div className="mb-0">
-                  <div className="text-lg font-bold text-purple-600">
+                <div className="mb-6">
+                  <div className="text-2xl font-bold text-purple-600">
                     KSH {Number(product.price).toLocaleString()}
                   </div>
                   {product.originalPrice && (
-                    <div className="text-base text-gray-400 line-through">
+                    <div className="text-lg text-gray-400 line-through mt-1">
                       KSH {Number(product.originalPrice).toLocaleString()}
                     </div>
                   )}
                 </div>
 
-                <div className="mb-0">
-                  <h2 className="text-base font-medium mb-2 text-gray-700">Description</h2>
-                  <p className="text-gray-600 text-sm leading-normal">
+                <div className="mb-6">
+                  <h2 className="text-xl font-semibold mb-3">Description</h2>
+                  <p className="text-gray-600 leading-relaxed whitespace-pre-line">
                     {product.description}
                   </p>
                 </div>
 
-                <div className="mb-6 flex items-center gap-2">
+                <div className="mb-8 flex items-center space-x-2">
                   <span
-                    className={`px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700'${product.inStock
-      }`}
+                    className={`px-3 py-1 rounded-full text-sm font-medium ${product.inStock
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-red-100 text-red-800'
+                      }`}
                   >
-                    In Stock
+                    {product.inStock ? 'In Stock' : 'Out of Stock'}
                   </span>
                   {product.inStock && product.stockQuantity && (
-                    <span className="text-xs text-gray-500">
+                    <span className="text-sm text-gray-500">
                       ({product.stockQuantity} available)
                     </span>
                   )}
                 </div>
 
-                <div className="flex flex-row gap-2">
+                <div className="flex flex-col sm:flex-row gap-4">
                   <button
                     onClick={handleWhatsAppOrder}
-                    className="w-full bg-green-600 hover:bg-green-700 text-white py-2.5 px-4 rounded-md font-medium text-sm transition-colors flex items-center justify-center gap-2"
+                    className="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center space-x-2"
                     disabled={!product.inStock}
                   >
-                    <FiMessageCircle className="w-4 h-4" />
+                    <FiMessageCircle className="w-5 h-5" />
                     <span>Order via WhatsApp</span>
                   </button>
 
                   <button
                     onClick={handleAddToCart}
-                    className="add-to-cart w-full bg-purple-600 hover:bg-purple-700 text-white py-2.5 px-4 rounded-md font-medium text-sm transition-colors flex items-center justify-center gap-2"
+                    className="add-to-cart flex-1 bg-purple-600 hover:bg-purple-700 text-white py-3 px-6 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center space-x-2"
                     disabled={!product.inStock}
                   >
-                    <FiShoppingCart className="w-4 h-4" />
+                    <FiShoppingCart className="w-5 h-5" />
                     <span>Add to Cart</span>
                   </button>
                 </div>
               </section>
             </div>
           ) : (
-            <div className="text-center py-8">
-              <p className="text-base text-gray-600">Product not found</p>
+            <div className="text-center py-12">
+              <p className="text-xl text-gray-600">Product not found</p>
             </div>
           )}
         </div>
 
-        <Viewed className="mt-8" />
+        <Viewed className="mt-16" />
       </main>
 
       <Footer />
